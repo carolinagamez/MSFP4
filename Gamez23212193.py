@@ -80,10 +80,6 @@ sysPID=ctrl.feedback(ctrl.series(PID,sysCaso),1,sign =-1)
 print(f"Función de transferencia del sistema de contrl en lazo cerrado: {sysPID}") 
 
 
-# Polos del sistema con PID
-polosPID = ctrl.poles(sysPID)
-print(f"Polos del sistema con PID: {polosPID}\n")
-
 # Respuesta del sistema en lazo cerrado
 _,VsPID = ctrl.forced_response(sysPID,t,VsControl,x0)
 
