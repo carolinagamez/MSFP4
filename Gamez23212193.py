@@ -59,48 +59,34 @@ print(f"Error estacionario del control: {essControl:.6f}")
 print(f"Error estacionario del caso: {essCaso:.6f}")
 print(f"Diferencia final entre control y caso: {essCaso-essControl:.6f}\n")
 
-# Parámetros del controlador PID
-kP = 962.368141439034
-kI = 171510.840008335
-kD = 0.179170949090154
-Nf = 3678.01770617189
+#Componentes del Controlador
+kP,kI,kD=962.368,171510.840,0.179
+Cr=1E-6
+Re=1/(Cr*kI)
+Rr=kP*Re
+Ce=kD/Rr
+numPID=[Re*Rr*Ce*Cr, Re*Ce + Rr*Cr,1]
+denPID=[Re*Cr,0]
+PID=ctrl.tf(numPID,denPID)
+print(f"El valor de la capacitancia Cr es de {Cr} Faradios.\n")
+print(f"El valor de la Resistencia Re es de {Re} Ohms.\n")
+print(f"El valor de la Resistencia Rr es de {Rr} Ohms.\n")
+print(f"El valor de la capacitancia Ce es de {Ce} Faradios.\n")
 
-# Componentes del controlador analógico ideal
-Cr = 1E-6
-Re = 1/(Cr*kI)
-Rr = kP*Re
-Ce = kD/Rr
+print(f"Función de Transferencia del Controlador PID: {PID}\n")
 
-print(f"Capacitancia Cr = {Cr:.9e} F")
-print(f"Resistencia Re = {Re:.9f} Ohms")
-print(f"Resistencia Rr = {Rr:.9f} Ohms")
-print(f"Capacitancia Ce = {Ce:.9e} F")
+#Sistema de Control en Lazo Cerrado
+sysPID=ctrl.feedback(ctrl.series(PID,sysCaso),1,sign =-1)
+print(f"Función de transferencia del sistema de contrl en lazo cerrado: {sysPID}") 
 
-
-# Función de transferencia del controlador PID filtrado
-# PID(s) = kP + kI/s + kD*Nf*s/(s+Nf)
-numPID = [kP+kD*Nf,kP*Nf+kI,kI*Nf]
-denPID = [1,Nf,0]
-PID = ctrl.tf(numPID,denPID)
-
-print(f"Función de transferencia del controlador PID: {PID}\n")
-
-# Sistema de control en lazo cerrado
-sysPID = ctrl.feedback(ctrl.series(PID,sysCaso),1,sign=-1)
-print(f"Función de transferencia del sistema endócrino en lazo cerrado: {sysPID}\n")
 
 # Polos del sistema con PID
 polosPID = ctrl.poles(sysPID)
 print(f"Polos del sistema con PID: {polosPID}\n")
 
 # Respuesta del sistema en lazo cerrado
-# La respuesta del control se utiliza como referencia
 _,VsPID = ctrl.forced_response(sysPID,t,VsControl,x0)
 
-# Error de seguimiento
-error = VsControl-VsPID
-print(f"Error final de seguimiento simulado: {error[-1]:.9f}")
-print(f"Ganancia DC del sistema con PID: {ctrl.dcgain(sysPID):.9f}\n")
 
 # Colores
 clr1 = np.array([246,36,119])/255
