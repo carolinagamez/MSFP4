@@ -1119,7 +1119,9 @@ La organización de los archivos permite documentar el desarrollo matemático, l
 ├── caso_python.pdf                   # Respuestas obtenidas en Python
 ├── Biorender_SistemaEndocrino.png    # Diagrama fisiológico
 ├── PID.png                           # Evidencia de sintonización PID
+├── Circuito.jpeg                     # Evidencia del circuito
 └── Osciloscopio.bmp                  # Evidencia experimental
+
 ```
 
 **Criterio de nombres:** los archivos de MATLAB, Simulink, Python y las figuras conservan las denominaciones utilizadas durante la práctica. La evidencia experimental se documenta mediante un archivo `.bmp` del osciloscopio, mientras que la imagen `PID.png` contiene la evidencia de sintonización del controlador.
@@ -1195,6 +1197,7 @@ La implementación experimental permite registrar las señales de entrada y sali
 | MATLAB | Cuaderno `.mlx`, exportación `.pdf` y figura comparativa |
 | Python | Código `.py`, funciones de transferencia y figura de resultados |
 | Controlador analógico | Cálculo de componentes y representación eléctrica del controlador |
+| Circuito | Evidencia del circuito `.jpeg` |
 | Laboratorio | Montaje experimental y una captura del osciloscopio en formato `.bmp` |
 | Verificación cruzada | Comparación de las respuestas computacionales y experimentales |
 | Diagrama biológico | Representación fisiológica mediante BioRender |
